@@ -1,24 +1,24 @@
 function f() {
-	var ret;
-	try {
-		throw new Error;
-	} catch (g) {
-		// function g() {
-		// 	return 'called';
-		// }
-		var g = function () { return 'called'; };
-		ret = g;
-	}
-	console.log(ret);
-	// g callable. So, g is in f's scope.
-	// function 
-	console.log(g());
+    var ret;
+    try {
+        throw new Error;
+    } catch (g) {
+        // function g() {
+        //  return 'called';
+        // }
+        var g = function () { return 'called'; };
+        ret = g;
+    }
+    console.log(ret);
+    // g callable. So, g is in f's scope.
+    // function 
+    console.log(g());
 }
-	
+
 try {
-	f();
+    f();
 } catch (e) {
-	console.log('!!!');
+    console.log('!!!');
 }
 
 // function declarations are not bound to catch scopes.

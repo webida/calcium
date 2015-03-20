@@ -1,19 +1,19 @@
 var e = 1;
 try {
-	throw 0;
+    throw 0;
 } catch (e) {
-	function f() {
-		// function decl escapes catch scope
-		console.log(e); // output 1
-	}
-	f();  
+    function f() {
+        // function decl escapes catch scope
+        console.log(e); // output 1
+    }
+    f();  
 
-	console.log(e); // output 0
+    console.log(e); // output 0
 
-	var g = function () {
-		console.log(e); // output 0
-	};
-	g();
+    var g = function () {
+        console.log(e); // output 0
+    };
+    g();
 }
 
 

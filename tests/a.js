@@ -1,12 +1,12 @@
 var x = 3;
 function id(x) {
-  var y,z;
-	return x;
+    var y,z;
+    return x;
 }
 
 try {
-  throw new Error;
+    throw new Error;
 } catch (e) {
-  console.log(e);
+    console.log(e);
 }
 
