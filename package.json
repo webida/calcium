@@ -1,0 +1,16 @@
+{
+  "name": "YAtern",
+  "license": "Apache 2.0",
+  "version": "0.1.0",
+  "author": "Se-Won Kim <kim.sewon@gmail.com>",
+  "description": "Yet Another Tern",
+  "main": "lib/driver.js",
+  "bin": "./bin/yatern",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webida/yatern.git"
+  },
+  "dependencies": {
+    "acorn": ">=0.12.0"
+  }
+}
