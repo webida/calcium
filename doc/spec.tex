@@ -1,5 +1,5 @@
 \documentclass{report}
-\usepackage{amsmath}
+\usepackage{amsmath,tikz}
 
 \begin{document}
 \title{Analysis Specification of YAtern}
@@ -14,21 +14,21 @@ An abstract value for an expression is defined as follows.
 \[
 A = N \times S \times B \times O.
 \]
-The value of an expression at a specific moment could be a primitive number, 
-a primitive string, a primitive boolean or an object.
+The value of an expression at a specific moment could be a (primitive) number, 
+a (primitive) string, a (primitive) boolean or an object.
 We collect those values according to some criteria 
 and abstract into an element of $A$.
-Therefore, we use the 4-ary tuples:
+Therefore, we use 4-ary tuples:
 $N$ is the abstract domain for number values, 
 $S$ for string values, and $O$ for object values. 
 
-Note that we do not have an abstraction for the primitive 
+Note that we do not have a domain for the primitive 
 value \texttt{undefined}. 
 In some sense, any abstraction in $A$ implicitly include 
 the concrete value \texttt{undefined}.
 This decision is natural because of the following two reasons.
 \begin{itemize}
-\item Since the analysis is flow-insensitive,
+\item Since our analysis is flow-insensitive,
   any variable could be \texttt{undefined} before its flow-insensitive use.
 \item It is a burden to explicitly represent them in the abstract values.
 \end{itemize}
@@ -37,13 +37,28 @@ as we ignore \texttt{undefined}
 since \texttt{null} is often interchangable 
 with \texttt{undefined} in practice.
 
-\section{Primitive Types}
-We can parameterize the abstract domains 
+\section{Abstraction of Primitive Types}
+We can parameterize the abstract domains by choosing 
+different $N$, $S$, $B$ and $O$. 
+For our analysis, we use very simple abstract domains for primitive data: 
+we abstract the primitive values into their types.
 \[
-N = \{ \}
+N = \{ \bot_N, \texttt{PrimNumber} \}
 \]
+where $\bot_N$ represents empty set of numbers and 
+\texttt{PrimNumber} represents the set of all numbers. 
+We define $S$ and $B$ similarly.
+\[
+S = \{ \bot_S, \texttt{PrimString} \}
+\qquad
+B = \{ \bot_B, \texttt{PrimBoolean} \}
+\]
+$\bot_S$ and $\bot_B$ represent empty sets, and \texttt{PrimString} and 
+\texttt{PrimBoolean} represent the sets of all string and booleans, 
+accordingly.
 
 \section{Object Types}
+
 
 \section{Function Types}
 
