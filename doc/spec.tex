@@ -1,0 +1,77 @@
+\documentclass{report}
+\usepackage{amsmath}
+
+\begin{document}
+\title{Analysis Specification of YAtern}
+\author{Se-Won Kim}
+\maketitle
+
+The analysis is basically a pointer analysis.
+
+\chapter{Abstraction of Values}
+\section{Abstract Values}
+An abstract value for an expression is defined as follows.
+\[
+A = N \times S \times B \times O.
+\]
+The value of an expression at a specific moment could be a primitive number, 
+a primitive string, a primitive boolean or an object.
+We collect those values according to some criteria 
+and abstract into an element of $A$.
+Therefore, we use the 4-ary tuples:
+$N$ is the abstract domain for number values, 
+$S$ for string values, and $O$ for object values. 
+
+Note that we do not have an abstraction for the primitive 
+value \texttt{undefined}. 
+In some sense, any abstraction in $A$ implicitly include 
+the concrete value \texttt{undefined}.
+This decision is natural because of the following two reasons.
+\begin{itemize}
+\item Since the analysis is flow-insensitive,
+  any variable could be \texttt{undefined} before its flow-insensitive use.
+\item It is a burden to explicitly represent them in the abstract values.
+\end{itemize}
+We ignore \texttt{null} value, which is of object type,
+as we ignore \texttt{undefined} 
+since \texttt{null} is often interchangable 
+with \texttt{undefined} in practice.
+
+\section{Primitive Types}
+We can parameterize the abstract domains 
+\[
+N = \{ \}
+\]
+
+\section{Object Types}
+
+\section{Function Types}
+
+
+\chapter{Constraint Generation}
+
+\chapter{Basic Constraint Solver}
+
+In this chapter, we show the overall design of the constraint solver. 
+
+One of the most important principles of the solver is that 
+we ignore the possibility of \texttt{null} and \texttt{undefined} 
+during constraint solving.
+Usually using those void values is not the intension of the programmer.
+If we take those values into account 
+we have much more spurious abstract values.
+For example, consider \texttt{c = a + b} where \texttt{a} and \texttt{b} 
+are always string values. 
+However, the abstractions of the variables contain \texttt{undefined} and
+\texttt{undefined + undefined === NaN}, which is of number type. 
+
+
+\chapter{Context Dependent Analysis}
+\begin{enumerate}
+\item extend-like functions
+\item special case of for-in loops
+\end{enumerate}
+
+\chapter{Optimizing the Solver: Forwarding Types}
+
+\end{document}
