@@ -1,5 +1,7 @@
 \documentclass{report}
-\usepackage{amsmath,tikz}
+\usepackage{amsmath,tikz,amssymb,stmaryrd,amsfonts}
+\usepackage{kotex}
+\usepackage{MnSymbol}
 
 \begin{document}
 \title{Analysis Specification of YAtern}
@@ -12,33 +14,34 @@ The analysis is basically a pointer analysis.
 \section{Abstract Values}
 An abstract value for an expression is defined as follows.
 \[
-A = N \times S \times B \times O.
+A = N \times S \times B \times \powerset(O).
 \]
 The value of an expression at a specific moment could be a (primitive) number, 
 a (primitive) string, a (primitive) boolean or an object.
-We collect those values according to some criteria 
+We collect possible values of an expression according to some criteria 
 and abstract into an element of $A$.
+The most basic criterion is type:
 Therefore, we use 4-ary tuples:
 $N$ is the abstract domain for number values, 
-$S$ for string values, and $O$ for object values. 
+$S$ for string values, $B$ for boolean values and $O$ for object values. 
 
 Note that we do not have a domain for the primitive 
 value \texttt{undefined}. 
-In some sense, any abstraction in $A$ implicitly include 
+In some sense, any element in $A$ implicitly includes 
 the concrete value \texttt{undefined}.
 This decision is natural because of the following two reasons.
 \begin{itemize}
-\item Since our analysis is flow-insensitive,
+\item Since our (primary) analysis is flow-insensitive,
   any variable could be \texttt{undefined} before its flow-insensitive use.
 \item It is a burden to explicitly represent them in the abstract values.
 \end{itemize}
-We ignore \texttt{null} value, which is of object type,
+Since \texttt{null} is often interchangable 
+with \texttt{undefined} in practice,
+we ignore \texttt{null} value, which is of object type,
 as we ignore \texttt{undefined} 
-since \texttt{null} is often interchangable 
-with \texttt{undefined} in practice.
 
 \section{Abstraction of Primitive Types}
-We can parameterize the abstract domains by choosing 
+We can parameterize the abstract domain $A$ by choosing 
 different $N$, $S$, $B$ and $O$. 
 For our analysis, we use very simple abstract domains for primitive data: 
 we abstract the primitive values into their types.
@@ -58,9 +61,88 @@ $\bot_S$ and $\bot_B$ represent empty sets, and \texttt{PrimString} and
 accordingly.
 
 \section{Object Types}
+ECMAScript 5 does not have a class system for explicit nominal object types. 
+Therefore, our analysis infers the structural object types 
+from usages of objects.
+Since an expression can have values of multiple object types unlike Java,
+we use the powerset of $O$ in the definition of $A$.
+We define object types, which are structural, as follows.
+\[
+O = String \rightharpoonup A
+\]
+where $String$ represents the set of all string values 
+and `$\rightharpoonup$' denotes finite partial maps. 
+
+\paragraph{Implementation}
+Since structural information could be verbose, 
+we will occasionally remember the associated variable or field names 
+if possible.
+% Then, we can show the object types using the recorded names.
+Note that object types are still structural but we can give programmers 
+more concise, pseudo nominal information using the recorded names.
+
+\chapter{Abstract Scope}
+Functions are a special kind of objects, 
+which are first-class values in JavaScript. 
+To analyze the functions correctly even when the function's are used in the 
+\[
+Scope = 
+\]
+함수 객체의 경우 abstract scope chain을 가지고 다니며 호출된 위치에서 분석해야 한다.
+만약 모든 함수를 context insensitive하게 분석한다면 
+각 함수마다 하나의 코앞 scope를 가지게 되므로 
+scope chain의 구조는 문법적인 nesting 구조와 같다. 
+각 함수마다 요약 scope chain의 수는 1개이다.
+
+nested function이 없는 프로그램을 context sensitive하게 분석하면, 
+각 함수마다 가능한 요약 scope chain의 갯수는 그 함수의 호출 갯수와 동일하다. 
+
+nested 함수가 있을 때, context sensitive 분석을 하면 
+하나의 함수에 대해 좀 더 많은 요약 scope chain이 생길 수 있다.
+다음 프로그램을 \texttt{f}는 context sensitive, \texttt{g}는 context insensitive하게
+분석한다고 해보자.
+\begin{verbatim}
+function f(x) {
+  function g(y) {
+    return x + y;
+  }
+  return g;
+}
+var g1 = f(0);
+var g2 = f('');
+var r1 = g1(0);
+var r2 = g2('');
+\end{verbatim}
+분석 결과는 \texttt{r1}은 \texttt{PrimNumber}, \texttt{r2}는 \texttt{PrimString}으로
+나와야 한다. 이 것은 \texttt{g1}, \texttt{g2}가 첫번째 요약 scope는 공유하고,
+두번째 요약 scope는 따로 가져야하기 때문이다.
+
+요약 scope가 parent을 가지는 모양이면 위와 같이 sensitivity를 조절할 수 없다. 
+대신 요약 함수 값 사이의 chain을 만들어야 할 것이다. 그리고 요약 scope객체는 heap과 유사한
+공간에서 다른 객체를 pointing할 수 있게 만든다. 
+\begin{itemize}
+\item 요약 scope 객체는 parent 대신 outer abstract function object를 가리킨다.
+\item abstract function object는 자신의 scope
+\end{itemize}
+
+
+tern은 현재 이런 경우가 생기지 않게 하는 듯하다.
+우리도 그다지 필요하지 않을 것 같기는 한데
 
 
 \section{Function Types}
+Functions are special objects in JavaScript. 
+We use $F \subseteq O$ to denote the function object types.
+They have a few additional abstract values for interprocedural analysis.
+For $f \in F$,
+\begin{enumerate}
+\item $this(f) \in A$ : for values bound to \texttt{this} variable 
+  in the function
+\item $ret(f) \in A$ : for return value of the function
+\item $throw(f) \in A$ : for throwable value of the function
+\item $args(f) \in A^*$ : for argments given to the function
+\item $scope(f) \in O^*$ : for scope chain of the function
+\end{enumerate}
 
 
 \chapter{Constraint Generation}
