@@ -1,5 +1,5 @@
 function f() {
-    var ret;
+    var ret, h = 1;
     try {
         throw new Error;
     } catch (g) {
