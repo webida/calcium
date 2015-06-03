@@ -8,7 +8,7 @@ var x5 = typeof 1;
 var x6 = delete x1;
 
 var y1 = 1 + 3;
-var y2 = 1  3;
+var y2 = 1 - 3;
 var y3 = 1 / 3;
 var y4 = 1 * 3;
 var y5 = 1 % 3;
