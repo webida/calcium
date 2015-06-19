@@ -16,14 +16,14 @@ function hasTypes(aval, types) {
 
 describe('YAtern', function () {
 
-    it('should analyze 01.js successfuly', function () {
+    it('should analyze 01.js successfully', function () {
         var data = fs.readFileSync('./testcases/01.js').toString();
         var gObject = infer.analyze(data);
 
         hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
     })
 
-    it('should analyze 02.js successfuly', function () {
+    it('should analyze 02.js successfully', function () {
         var data = fs.readFileSync('./testcases/02.js').toString();
         var gObject = infer.analyze(data);
 
@@ -31,7 +31,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
     })
 
-    it('should analyze 03.js successfuly', function () {
+    it('should analyze 03.js successfully', function () {
         var data = fs.readFileSync('./testcases/03.js').toString();
         var gObject = infer.analyze(data);
 
@@ -39,7 +39,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('j', true), [types.PrimNumber]);
     })
 
-    it('should analyze 04.js successfuly', function () {
+    it('should analyze 04.js successfully', function () {
         var data = fs.readFileSync('./testcases/04.js').toString();
         var gObject = infer.analyze(data);
 
@@ -48,14 +48,14 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('pairs', true), [types.PrimString]);
     })
 
-    it('should analyze 05.js successfuly', function () {
+    it('should analyze 05.js successfully', function () {
         var data = fs.readFileSync('./testcases/05.js').toString();
         var gObject = infer.analyze(data);
 
         hasTypes(gObject.getProp('isEven', true), [types.PrimBoolean]);
     })
 
-    it('should analyze 06.js successfuly', function () {
+    it('should analyze 06.js successfully', function () {
         var data = fs.readFileSync('./testcases/06.js').toString();
         var gObject = infer.analyze(data);
 
@@ -75,7 +75,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('y7', true), [types.PrimBoolean]);
     })
 
-    it('should analyze 07.js successfuly', function () {
+    it('should analyze 07.js successfully', function () {
         var data = fs.readFileSync('./testcases/07.js').toString();
         var gObject = infer.analyze(data);
 
@@ -86,7 +86,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('x3', true), [types.PrimBoolean]);
     })
 
-    it('should analyze 08.js successfuly', function () {
+    it('should analyze 08.js successfully', function () {
         var data = fs.readFileSync('./testcases/08.js').toString();
         var gObject = infer.analyze(data);
 
@@ -94,7 +94,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('ab', true), [types.PrimString]);
     })
 
-    it('should analyze 09.js successfuly', function () {
+    it('should analyze 09.js successfully', function () {
         var data = fs.readFileSync('./testcases/09.js').toString();
         var gObject = infer.analyze(data);
 
@@ -104,7 +104,7 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('y', true), [types.PrimString]);
     })
 
-    it('should analyze 10.js successfuly', function () {
+    it('should analyze 10.js successfully', function () {
         var data = fs.readFileSync('./testcases/10.js').toString();
         var gObject = infer.analyze(data);
 
@@ -131,11 +131,32 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('l', true), [types.PrimNumber]);
     })
 
-    it('should analyze 11.js successfuly', function () {
+    it('should analyze 11.js successfully', function () {
         var data = fs.readFileSync('./testcases/11.js').toString();
         var gObject = infer.analyze(data);
 
         hasTypes(gObject.getProp('a', true), [types.PrimNumber]);
         hasTypes(gObject.getProp('b', true), [types.PrimString]);
+    })
+
+    it('should analyze 12.js successfully', function () {
+        var data = fs.readFileSync('./testcases/12.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('x1', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('x2', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('x3', true), [types.PrimString]);
+        hasTypes(gObject.getProp('x4', true), [types.PrimString]);
+        hasTypes(gObject.getProp('x5', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('x6', true), [types.PrimBoolean]);
+    })
+
+    it('should analyze 13.js successfully', function () {
+        var data = fs.readFileSync('./testcases/13.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('y', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('z', true), [types.PrimNumber]);
     })
 })
