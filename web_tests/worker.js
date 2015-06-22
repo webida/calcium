@@ -1,8 +1,6 @@
 importScripts('../dist/yatern.js');
 
 addEventListener('message', function (e) {
-    var data = e.data;
-    //console.log(e.data.code);
     var t1 = (new Date).getTime();
     var gObject = YAtern.analyze(e.data.code);
     var t2 = (new Date).getTime();
@@ -14,12 +12,15 @@ addEventListener('message', function (e) {
     var propNames = '';
 
     var types = gObject.getProp('x').types;
-    for (var i = 0; i < types.length; i++) {
-        typeNames += types[i].name + '\n';
-        if (types[i].props) {
-            propNames += Object.getOwnPropertyNames(types[i].props) + '\n';
+
+    types.forEach(function (type) {
+        typeNames += type.name + ', ';
+        if (type.props) {
+            type.props.forEach(function (value, key) {
+                propNames += key + ', ';
+            });
         }
-    }
+    });
     message.typeNames = typeNames;
     message.propNames = propNames;
 
