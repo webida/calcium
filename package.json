@@ -17,6 +17,7 @@
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
     "chai": "^3.0.0",
+    "eslint": "^0.23.0",
     "istanbul": "^0.3.14",
     "mocha": "^2.2.5",
     "qunitjs": "^1.18.0"
