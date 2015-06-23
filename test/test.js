@@ -162,4 +162,11 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('y', true), [types.PrimNumber]);
         hasTypes(gObject.getProp('z', true), [types.PrimNumber]);
     });
+
+    it('should analyze 14.js successfully', function () {
+        var data = fs.readFileSync('./testcases/14.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimString]);
+    });
 });
