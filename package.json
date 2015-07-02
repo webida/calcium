@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git://github.com/webida/yatern.git"
   },
+  "scripts": {
+    "test": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R spec"
+  },
   "dependencies": {
     "acorn": "^1.0.0"
   },
