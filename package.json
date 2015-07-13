@@ -10,6 +10,7 @@
     "url": "git://github.com/webida/yatern.git"
   },
   "scripts": {
+    "prepublish": "node ./bin/build.js",
     "test": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R spec"
   },
   "dependencies": {
