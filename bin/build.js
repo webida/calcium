@@ -6,10 +6,15 @@ var babelify = require('babelify').configure({loose: 'all'});
 
 process.chdir(path.resolve(__dirname, '..'));
 
+// make ./dist if not exist
+if (!fs.existsSync('dist')) {
+    fs.mkdirSync('dist');
+}
+
 // build for web
 browserify({standalone: 'YAtern', debug: true})
     .transform(babelify)
     .require('./lib/infer.js', {entry: true})
     .bundle()
     .on('error', function (err) { console.log('Error: ' + err.message) })
-    .pipe(fs.createWriteStream('dist/yatern.js'))
+    .pipe(fs.createWriteStream('dist/yatern.js'));
