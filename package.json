@@ -5,7 +5,6 @@
   "author": "Se-Won Kim <kim.sewon@gmail.com>",
   "description": "Yet Another Tern",
   "main": "lib/driver.js",
-  "bin": "./bin/yatern",
   "repository": {
     "type": "git",
     "url": "git://github.com/webida/yatern.git"
