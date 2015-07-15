@@ -35,5 +35,7 @@ addEventListener('message', function (e) {
     message.typeNames = typeNames;
     message.propNames = propNames;
 
+    message.varOccurrences = [{start: 0, end: 1}, {start: 3, end: 4}];
+
     postMessage(message);
 });
