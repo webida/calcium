@@ -25,9 +25,15 @@ addEventListener('message', function (e) {
         }
     });
 
-    var varNodeAtPos = YAtern.findIdentifierNodeAt(result.AST, e.data.pos);
-    if (varNodeAtPos) {
-        message.varNameAtPos = varNodeAtPos.name;
+    var varAtPos = YAtern.findIdentifierAt(result.AST, e.data.pos);
+    if (varAtPos) {
+        message.varNameAtPos = varAtPos.node.name;
+        console.log(varAtPos.state);
+
+        var refs = YAtern.findVarRefsAt(result.AST, e.data.pos);
+        message.varOccurrences = refs;
+
+
     } else {
         message.varNameAtPos = null;
     }
@@ -35,7 +41,6 @@ addEventListener('message', function (e) {
     message.typeNames = typeNames;
     message.propNames = propNames;
 
-    message.varOccurrences = [{start: 0, end: 1}, {start: 3, end: 4}];
 
     postMessage(message);
 });
