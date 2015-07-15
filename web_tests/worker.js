@@ -1,18 +1,21 @@
 importScripts('../dist/yatern.js');
 
 addEventListener('message', function (e) {
-    var t1 = (new Date).getTime();
-    var gObject = YAtern.analyze(e.data.code);
-    var t2 = (new Date).getTime();
-    console.log("Time spent: " + (t2 - t1));
+    var t1 = (new Date()).getTime();
+    var result = YAtern.analyze(e.data.code, true);
+    var gObject = result.gObject;
+    var t2 = (new Date()).getTime();
+    console.log('Time spent: ' + (t2 - t1));
 
     var message = {};
 
     var typeNames = '';
     var propNames = '';
 
+    // find types
     var types = gObject.getProp('x').types;
 
+    // find object prop names
     types.forEach(function (type) {
         typeNames += type.name + ', ';
         if (type.props) {
@@ -21,6 +24,14 @@ addEventListener('message', function (e) {
             });
         }
     });
+
+    var varNodeAtPos = YAtern.findIdentifierNodeAt(result.AST, e.data.pos);
+    if (varNodeAtPos) {
+        message.varNameAtPos = varNodeAtPos.name;
+    } else {
+        message.varNameAtPos = null;
+    }
+
     message.typeNames = typeNames;
     message.propNames = propNames;
 
