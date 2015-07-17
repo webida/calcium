@@ -2,7 +2,12 @@ importScripts('../dist/yatern.js');
 
 addEventListener('message', function (e) {
     var t1 = (new Date()).getTime();
-    var result = YAtern.analyze(e.data.code, true);
+    try {
+        var result = YAtern.analyze(e.data.code, true);
+    } catch (e) {
+        // analysis fail
+        return {};
+    }
     var gObject = result.gObject;
     var t2 = (new Date()).getTime();
     console.log('Time spent: ' + (t2 - t1));
