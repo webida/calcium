@@ -23,6 +23,13 @@ function id(x) {
 function foo(x) {
     return '';
 }
+
+function adder(x) {
+    "use strict";
+    return function (y) {
+        return x + y;
+    }
+}
 </textarea>
 <br>
 <div id="types"></div>
@@ -32,5 +39,9 @@ function foo(x) {
 <div id="varAtPos"></div>
 <br>
 <div id="varOccurrences"></div>
+<br>
+<div id="onFunctionKeyword"></div>
+<br>
+<div id="returnList"></div>
 </body>
 </html>
