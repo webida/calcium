@@ -4,7 +4,7 @@ $(document).ready(function () {
     var props = document.querySelector('#props');
     var varAtPos = document.querySelector('#varAtPos');
     var varOccurrences = document.querySelector('#varOccurrences');
-    var onFunctionKeyword = document.querySelector('#onFunctionKeyword');
+    var onFunctionOrReturnKeyword = document.querySelector('#onFunctionOrReturnKeyword');
     var returnList = document.querySelector('#returnList');
 
     if (!!window.Worker) {
@@ -18,8 +18,8 @@ $(document).ready(function () {
             console.log(e);
             types.textContent = 'x\'s type names: ' + e.data.typeNames;
             props.textContent = 'x\'s property names: ' + e.data.propNames;
-            onFunctionKeyword.textContent = 'on function keyword? ' +
-                !!e.data.onFunctionKeyword;
+            onFunctionOrReturnKeyword.textContent = 'on function or return keyword? ' +
+                !!e.data.onFunctionOrReturnKeyword;
             if (e.data.varNameAtPos) {
                 varAtPos.textContent = 'variable at pos ' +
                     code.selectionStart + ': ' + e.data.varNameAtPos;
@@ -35,7 +35,7 @@ $(document).ready(function () {
                     'no variable at pos ' + code.selectionStart;
                 varOccurrences.textContent = '';
             }
-            if (e.data.onFunctionKeyword) {
+            if (e.data.onFunctionOrReturnKeyword) {
                 returnList.textContent = '';
                 e.data.returnList.forEach(function (e) {
                     "use strict";
