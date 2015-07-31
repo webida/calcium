@@ -6,6 +6,8 @@ $(document).ready(function () {
     var varOccurrences = document.querySelector('#varOccurrences');
     var onFunctionOrReturnKeyword = document.querySelector('#onFunctionOrReturnKeyword');
     var returnList = document.querySelector('#returnList');
+    var onThisKeyword = document.querySelector('#onThisKeyword');
+    var thisList = document.querySelector('#thisList');
 
     if (!!window.Worker) {
         var worker = new Worker('worker.js');
@@ -20,6 +22,9 @@ $(document).ready(function () {
             props.textContent = 'x\'s property names: ' + e.data.propNames;
             onFunctionOrReturnKeyword.textContent = 'on function or return keyword? ' +
                 !!e.data.onFunctionOrReturnKeyword;
+            onThisKeyword.textContent = 'on this keyword? ' +
+                !!e.data.onThisKeyword;
+
             if (e.data.varNameAtPos) {
                 varAtPos.textContent = 'variable at pos ' +
                     code.selectionStart + ': ' + e.data.varNameAtPos;
@@ -43,6 +48,16 @@ $(document).ready(function () {
                 });
             } else {
                 returnList.textContent = 'N/A';
+            }
+
+            if (e.data.onThisKeyword) {
+                thisList.textContent = '';
+                e.data.thisList.forEach(function (e) {
+                    "use strict";
+                    thisList.textContent += e.start + ' ~ ' + e.end + ', ';
+                });
+            } else {
+                thisList.textContent = 'N/A';
             }
 
             console.log('Message received from worker');

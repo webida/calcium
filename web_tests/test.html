@@ -4,7 +4,7 @@
     <script type="text/javascript" src="./test.js" charset="utf-8"></script>
 </head>
 <body>
-<textarea rows="30" cols="50" id="code">
+<textarea rows="50" cols="50" id="code">
 x = 3;
 
 function f(y) {
@@ -30,6 +30,14 @@ function adder(x) {
         return x + y;
     }
 }
+
+function f() {
+    var self = this;
+    doCallback(function () {
+        console.log(this, self);
+    });
+}
+
 </textarea>
 <br>
 <div id="types"></div>
@@ -43,5 +51,9 @@ function adder(x) {
 <div id="onFunctionOrReturnKeyword"></div>
 <br>
 <div id="returnList"></div>
+<br>
+<div id="onThisKeyword"></div>
+<br>
+<div id="thisList"></div>
 </body>
 </html>

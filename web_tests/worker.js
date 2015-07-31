@@ -46,14 +46,19 @@ addEventListener('message', function (e) {
     var onFunctionOrReturnKeyword = YAtern.onFunctionOrReturnKeyword(result.AST, e.data.pos);
 
     if (onFunctionOrReturnKeyword) {
-        var temp = YAtern.findReturnStatements(result.AST, e.data.pos);
-        console.log(temp);
         message.returnList = YAtern.findReturnStatements(result.AST, e.data.pos);
     }
+
+    var onThisKeyword = YAtern.onThisKeyword(result.AST, e.data.pos);
+
+    if (onThisKeyword) {
+        message.thisList = YAtern.findThisExpressions(result.AST, e.data.pos, true);
+    }
+
     message.typeNames = typeNames;
     message.propNames = propNames;
     message.onFunctionOrReturnKeyword = onFunctionOrReturnKeyword;
-
+    message.onThisKeyword = onThisKeyword;
 
     postMessage(message);
 });
