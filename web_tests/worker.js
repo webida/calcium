@@ -30,12 +30,12 @@ addEventListener('message', function (e) {
         }
     });
 
-    var varAtPos = YAtern.findIdentifierAt(result.AST, e.data.pos);
+    var varAtPos = YAtern.findIdentifierAt(result.AST, e.data.end);
     if (varAtPos) {
         message.varNameAtPos = varAtPos.node.name;
         console.log(varAtPos.state);
 
-        var refs = YAtern.findVarRefsAt(result.AST, e.data.pos);
+        var refs = YAtern.findVarRefsAt(result.AST, e.data.end);
         message.varOccurrences = refs;
 
 
@@ -43,22 +43,25 @@ addEventListener('message', function (e) {
         message.varNameAtPos = null;
     }
 
-    var onFunctionOrReturnKeyword = YAtern.onFunctionOrReturnKeyword(result.AST, e.data.pos);
+    var onFunctionOrReturnKeyword = YAtern.onFunctionOrReturnKeyword(result.AST, e.data.end);
 
     if (onFunctionOrReturnKeyword) {
-        message.returnList = YAtern.findReturnStatements(result.AST, e.data.pos);
+        message.returnList = YAtern.findReturnStatements(result.AST, e.data.end);
     }
 
-    var onThisKeyword = YAtern.onThisKeyword(result.AST, e.data.pos);
+    var onThisKeyword = YAtern.onThisKeyword(result.AST, e.data.end);
 
     if (onThisKeyword) {
-        message.thisList = YAtern.findThisExpressions(result.AST, e.data.pos, true);
+        message.thisList = YAtern.findThisExpressions(result.AST, e.data.end, true);
     }
+
+    var sNode = YAtern.findSurroundingNode(result.AST, e.data.start, e.data.end);
 
     message.typeNames = typeNames;
     message.propNames = propNames;
     message.onFunctionOrReturnKeyword = onFunctionOrReturnKeyword;
     message.onThisKeyword = onThisKeyword;
+    message.surroundingNode = sNode;
 
     postMessage(message);
 });

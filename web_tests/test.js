@@ -8,12 +8,16 @@ $(document).ready(function () {
     var returnList = document.querySelector('#returnList');
     var onThisKeyword = document.querySelector('#onThisKeyword');
     var thisList = document.querySelector('#thisList');
+    var surroundingNode = document.querySelector('#surroundingNode');
 
     if (!!window.Worker) {
         var worker = new Worker('worker.js');
         code.onchange = code.onkeyup = function () {
             console.log('Message posted to worker');
-            worker.postMessage({code: code.value, pos: code.selectionStart});
+            worker.postMessage({
+                code: code.value,
+                start: code.selectionStart,
+                end: code.selectionEnd});
         };
 
         worker.onmessage = function (e) {
@@ -58,6 +62,17 @@ $(document).ready(function () {
                 });
             } else {
                 thisList.textContent = 'N/A';
+            }
+
+            surroundingNode.textContent =
+                'Selection: ' + code.selectionStart + '~' +
+                code.selectionEnd + ' => Surrounding node: ';
+            if (e.data.surroundingNode) {
+                surroundingNode.textContent +=
+                    e.data.surroundingNode.start + '~' +
+                    e.data.surroundingNode.end;
+            } else {
+                surroundingNode.textContent = 'N/A';
             }
 
             console.log('Message received from worker');
