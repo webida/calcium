@@ -11,12 +11,13 @@
   },
   "scripts": {
     "prepublish": "node ./bin/build.js",
-    "test": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -R spec"
+    "test": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --compilers js:babel/register -R spec"
   },
   "dependencies": {
     "acorn": "^2.0.0"
   },
   "devDependencies": {
+    "babel": "^5.8.21",
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
     "chai": "^3.0.0",
