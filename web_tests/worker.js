@@ -55,22 +55,13 @@ addEventListener('message', function (e) {
         message.thisList = YAtern.findThisExpressions(result.AST, e.data.end, true);
     }
 
-    var sNode = YAtern.findSurroundingNode(result.AST, e.data.start, e.data.end);
-    var nodeType = result.Ĉ.getTypeOfLoc(sNode)
-    if (!nodeType) {
-        message.nodeType = 'N/A';
-    } else {
-        message.nodeType = '';
-        nodeType.forEach(function (tp) {
-            message.nodeType += tp.getName() + ', ';
-        });
-    }
+    var typeData = YAtern.getTypeData(result.AST, result.Ĉ, e.data.start, e.data.end);
 
     message.typeNames = typeNames;
     message.propNames = propNames;
     message.onFunctionOrReturnKeyword = onFunctionOrReturnKeyword;
     message.onThisKeyword = onThisKeyword;
-    message.surroundingNode = sNode;
+    message.typeData = typeData;
 
     postMessage(message);
 });

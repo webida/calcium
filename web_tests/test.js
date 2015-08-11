@@ -68,9 +68,9 @@ $(document).ready(function () {
                 'Selection: ' + code.selectionStart + '~' +
                 code.selectionEnd + ' => Surrounding node: ';
             surroundingNode.textContent +=
-                e.data.surroundingNode.start + '~' +
-                e.data.surroundingNode.end + '\n' +
-                'types are ' + e.data.nodeType;
+                e.data.typeData.nodeStart + '~' +
+                e.data.typeData.nodeEnd + '\n' +
+                'types are ' + e.data.typeData.typeString;
 
             console.log('Message received from worker');
         };
