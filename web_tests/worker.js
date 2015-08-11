@@ -56,6 +56,15 @@ addEventListener('message', function (e) {
     }
 
     var sNode = YAtern.findSurroundingNode(result.AST, e.data.start, e.data.end);
+    var nodeType = result.Ĉ.getTypeOfLoc(sNode)
+    if (!nodeType) {
+        message.nodeType = 'N/A';
+    } else {
+        message.nodeType = '';
+        nodeType.forEach(function (tp) {
+            message.nodeType += tp.getName() + ', ';
+        });
+    }
 
     message.typeNames = typeNames;
     message.propNames = propNames;

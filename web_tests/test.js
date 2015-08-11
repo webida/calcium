@@ -67,13 +67,10 @@ $(document).ready(function () {
             surroundingNode.textContent =
                 'Selection: ' + code.selectionStart + '~' +
                 code.selectionEnd + ' => Surrounding node: ';
-            if (e.data.surroundingNode) {
-                surroundingNode.textContent +=
-                    e.data.surroundingNode.start + '~' +
-                    e.data.surroundingNode.end;
-            } else {
-                surroundingNode.textContent = 'N/A';
-            }
+            surroundingNode.textContent +=
+                e.data.surroundingNode.start + '~' +
+                e.data.surroundingNode.end + '\n' +
+                'types are ' + e.data.nodeType;
 
             console.log('Message received from worker');
         };
