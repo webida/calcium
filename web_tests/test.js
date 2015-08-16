@@ -35,7 +35,7 @@ $(document).ready(function () {
                 // showing the occurrences
                 varOccurrences.textContent = 'Occurrences of the variable: ';
                 e.data.varOccurrences.forEach(function (e) {
-                    "use strict";
+                    'use strict';
                     // show each occurrences
                     varOccurrences.textContent += e.start + ' ~ ' + e.end + ', ';
                 });
@@ -47,7 +47,7 @@ $(document).ready(function () {
             if (e.data.onFunctionOrReturnKeyword) {
                 returnList.textContent = '';
                 e.data.returnList.forEach(function (e) {
-                    "use strict";
+                    'use strict';
                     returnList.textContent += e.start + ' ~ ' + e.end + ', ';
                 });
             } else {
@@ -57,7 +57,7 @@ $(document).ready(function () {
             if (e.data.onThisKeyword) {
                 thisList.textContent = '';
                 e.data.thisList.forEach(function (e) {
-                    "use strict";
+                    'use strict';
                     thisList.textContent += e.start + ' ~ ' + e.end + ', ';
                 });
             } else {
