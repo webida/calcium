@@ -4,7 +4,7 @@ var assert = chai.assert,
     should = chai.should();
 var fs = require('fs');
 var infer = require('../lib/infer');
-var types = require('../lib/domains/types');
+import * as types from '../lib/domains/types'
 
 function hasTypes(aval, types) {
     expect(aval.types.size).to.be.equal(types.length);
