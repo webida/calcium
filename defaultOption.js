@@ -9,5 +9,6 @@ export const defaultOptions = {
     },
     // At the start of program and each function,
     // check 'use strict'
+    // maybe we do not need this option
     detectUseStrict: true
 };
