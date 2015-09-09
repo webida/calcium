@@ -179,4 +179,12 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('t3', true), [types.PrimBoolean]);
     });
 
+    it('should analyze 16.js successfully', function () {
+        var data = fs.readFileSync('./testcases/16.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('a0', true), []);
+        hasTypes(gObject.getProp('a1', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('a3', true), [types.PrimBoolean]);
+    });
 });
