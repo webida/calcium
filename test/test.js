@@ -183,7 +183,7 @@ describe('YAtern', function () {
         var data = fs.readFileSync('./testcases/16.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('a0', true), []);
+        hasTypes(gObject.getProp('a0', true), [types.PrimNumber, types.PrimBoolean]);
         hasTypes(gObject.getProp('a1', true), [types.PrimNumber]);
         hasTypes(gObject.getProp('a3', true), [types.PrimBoolean]);
     });
@@ -194,5 +194,13 @@ describe('YAtern', function () {
 
         hasTypes(gObject.getProp('x', true), []);
         hasTypes(gObject.getProp('y', true), [types.PrimString]);
+    });
+
+    it('should analyze 18.js successfully', function () {
+        var data = fs.readFileSync('./testcases/18.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('y', true), []);
     });
 });
