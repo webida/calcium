@@ -1,0 +1,63 @@
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="./test.js" charset="utf-8"></script>
+</head>
+<body>
+<textarea rows="50" cols="50" id="code">
+x = 3;
+var obj = {aa: {cc: ''}, bb: false};
+obj.aa = 3;
+
+function f(y) {
+  try {
+    console.log('hi');
+  } catch (y) {
+    console.log('bye');
+  }
+  return y;
+}
+
+function id(x) {
+    return x;
+}
+
+function foo(x) {
+    return '';
+}
+
+function adder(x) {
+    "use strict";
+    return function (y) {
+        return x + y;
+    }
+}
+
+function f() {
+    var self = this;
+    doCallback(function () {
+        console.log(this, self);
+    });
+}
+
+</textarea>
+<br>
+<div id="types"></div>
+<br>
+<div id="props"></div>
+<br>
+<div id="varAtPos"></div>
+<br>
+<div id="varOccurrences"></div>
+<br>
+<div id="onFunctionOrReturnKeyword"></div>
+<br>
+<div id="returnList"></div>
+<br>
+<div id="onThisKeyword"></div>
+<br>
+<div id="thisList"></div>
+<br>
+<div id="surroundingNode"></div>
+</body>
+</html>

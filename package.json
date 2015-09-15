@@ -1,16 +1,29 @@
 {
-    "name": "YAtern",
-    "license": "Apache 2.0",
-    "version": "0.1.0",
-    "author": "Se-Won Kim <kim.sewon@gmail.com>",
-    "description": "Yet Another Tern",
-    "main": "lib/driver.js",
-    "bin": "./bin/yatern",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/webida/yatern.git"
-    },
-    "dependencies": {
-        "acorn": "<2.0.0"
-    }
+  "name": "YAtern",
+  "license": "Apache-2.0",
+  "version": "0.1.0",
+  "author": "Se-Won Kim <kim.sewon@gmail.com>",
+  "description": "Yet Another Tern",
+  "main": "dist/yatern.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/webida/yatern.git"
+  },
+  "scripts": {
+    "prepublish": "node ./bin/build.js",
+    "test": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --compilers js:babel/register -R spec"
+  },
+  "dependencies": {
+    "acorn": "^2.0.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.3",
+    "chai": "^3.0.0",
+    "eslint": "^0.23.0",
+    "istanbul": "^0.3.14",
+    "mocha": "^2.2.5",
+    "qunitjs": "^1.18.0"
+  }
 }
