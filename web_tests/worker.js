@@ -47,10 +47,10 @@ addEventListener('message', function (e) {
         message.varNameAtPos = null;
     }
 
-    var onFunctionOrReturnKeyword = YAtern.onFunctionOrReturnKeyword(result.AST, end);
+    var onFunctionOrReturnKeyword = YAtern.onEscapingStatement(result.AST, end);
 
     if (onFunctionOrReturnKeyword) {
-        message.returnList = YAtern.findReturnStatements(result.AST, end);
+        message.escapingList = YAtern.findEscapingStatements(result.AST, end, true);
     }
 
     var onThisKeyword = YAtern.onThisKeyword(result.AST, end);
@@ -63,7 +63,7 @@ addEventListener('message', function (e) {
 
     message.typeNames = typeNames;
     message.propNames = propNames;
-    message.onFunctionOrReturnKeyword = onFunctionOrReturnKeyword;
+    message.onEscapingStatement = !!onFunctionOrReturnKeyword;
     message.onThisKeyword = onThisKeyword;
     message.typeData = typeData;
 

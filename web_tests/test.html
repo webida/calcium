@@ -12,8 +12,10 @@ obj.aa = 3;
 function f(y) {
   try {
     console.log('hi');
+    throw 0;
   } catch (y) {
     console.log('bye');
+    throw 1;
   }
   return y;
 }
@@ -50,9 +52,9 @@ function f() {
 <br>
 <div id="varOccurrences"></div>
 <br>
-<div id="onFunctionOrReturnKeyword"></div>
+<div id="onEscapingStatement"></div>
 <br>
-<div id="returnList"></div>
+<div id="escapingList"></div>
 <br>
 <div id="onThisKeyword"></div>
 <br>

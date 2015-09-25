@@ -4,8 +4,8 @@ $(document).ready(function () {
     var props = document.querySelector('#props');
     var varAtPos = document.querySelector('#varAtPos');
     var varOccurrences = document.querySelector('#varOccurrences');
-    var onFunctionOrReturnKeyword = document.querySelector('#onFunctionOrReturnKeyword');
-    var returnList = document.querySelector('#returnList');
+    var onEscapingStatement = document.querySelector('#onEscapingStatement');
+    var escapingList = document.querySelector('#escapingList');
     var onThisKeyword = document.querySelector('#onThisKeyword');
     var thisList = document.querySelector('#thisList');
     var surroundingNode = document.querySelector('#surroundingNode');
@@ -24,8 +24,8 @@ $(document).ready(function () {
             console.log(e);
             types.textContent = 'x\'s type names: ' + e.data.typeNames;
             props.textContent = 'x\'s property names: ' + e.data.propNames;
-            onFunctionOrReturnKeyword.textContent = 'on function or return keyword? ' +
-                !!e.data.onFunctionOrReturnKeyword;
+            onEscapingStatement.textContent = 'on function or escaping keyword? ' +
+                !!e.data.onEscapingStatement;
             onThisKeyword.textContent = 'on this keyword? ' +
                 !!e.data.onThisKeyword;
 
@@ -44,14 +44,14 @@ $(document).ready(function () {
                     'no variable at pos ' + code.selectionStart;
                 varOccurrences.textContent = '';
             }
-            if (e.data.onFunctionOrReturnKeyword) {
-                returnList.textContent = '';
-                e.data.returnList.forEach(function (e) {
+            if (e.data.onEscapingStatement) {
+                escapingList.textContent = '';
+                e.data.escapingList.forEach(function (e) {
                     'use strict';
-                    returnList.textContent += e.start + ' ~ ' + e.end + ', ';
+                    escapingList.textContent += e.start + ' ~ ' + e.end + ', ';
                 });
             } else {
-                returnList.textContent = 'N/A';
+                escapingList.textContent = 'N/A';
             }
 
             if (e.data.onThisKeyword) {
