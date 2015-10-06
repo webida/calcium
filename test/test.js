@@ -203,4 +203,13 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
         hasTypes(gObject.getProp('y', true), []);
     });
+
+    it('should analyze 19.js successfully', function () {
+        var data = fs.readFileSync('./testcases/19.js').toString();
+        var gObject = infer.analyze(data);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('z', true), [types.PrimString]);
+    });
 });
