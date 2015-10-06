@@ -209,6 +209,7 @@ describe('YAtern', function () {
         var gObject = infer.analyze(data);
 
         hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), [types.PrimString]);
+        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('z', true), [types.PrimString]);
     });
 });
