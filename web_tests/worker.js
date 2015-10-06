@@ -64,7 +64,7 @@ addEventListener('message', function (e) {
     message.typeNames = typeNames;
     message.propNames = propNames;
     message.onEscapingStatement = !!onFunctionOrReturnKeyword;
-    message.onThisKeyword = onThisKeyword;
+    message.onThisKeyword = !!onThisKeyword;
     message.typeData = typeData;
 
     postMessage(message);
