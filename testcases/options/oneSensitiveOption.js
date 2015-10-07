@@ -12,11 +12,16 @@ export const options = {
     // maybe we do not need this option
     detectUseStrict: true,
 
-    // context insensitive
+    // 1 call-site sensitive
     sensitivityParameter: {
-        maxDepthK: 0,
+        maxDepthK: 1,
+        /**
+         * By default, we analyze all functions context-sensitively.
+         * @param {FnType} fn
+         * @returns {number}
+         */
         contextLengthOfFunc: function (fn) {
-            return 0;
+            return 1;
         }
     }
 };
