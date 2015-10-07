@@ -212,4 +212,26 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
         hasTypes(gObject.getProp('z', true), [types.PrimString]);
     });
+
+    it('should analyze 20.js successfully', function () {
+        var data = fs.readFileSync('./testcases/20.js').toString();
+        var options = require('../testcases/options/oneSensitiveOption').options;
+        var gObject = infer.analyze(data, false, options);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('a', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('b', true), [types.PrimBoolean]);
+    });
+
+    it('should analyze 21.js successfully', function () {
+        var data = fs.readFileSync('./testcases/21.js').toString();
+        var options = require('../testcases/options/nameBasedSensitiveOption').options;
+        var gObject = infer.analyze(data, false, options);
+
+        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
+        hasTypes(gObject.getProp('a', true), [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject.getProp('b', true), [types.PrimNumber, types.PrimBoolean]);
+    });
 });
