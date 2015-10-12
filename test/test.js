@@ -22,7 +22,7 @@ function getIfSingleton(set) {
     return elt;
 }
 
-describe('YAtern', function () {
+describe('calcium', function () {
 
     it('should analyze 01.js successfully', function () {
         var data = fs.readFileSync('./testcases/01.js').toString();

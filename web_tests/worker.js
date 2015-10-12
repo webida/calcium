@@ -1,9 +1,9 @@
-importScripts('../dist/yatern.js');
+importScripts('../dist/calcium.js');
 
 addEventListener('message', function (e) {
     var t1 = (new Date()).getTime();
     try {
-        var result = YAtern.analyze(e.data.code, true);
+        var result = calcium.analyze(e.data.code, true);
     } catch (e) {
         // analysis fail
         return {};
@@ -19,7 +19,7 @@ addEventListener('message', function (e) {
     var propNames = '';
 
     // find id or member node
-    YAtern.getCompletionAtPos(result, end);
+    calcium.getCompletionAtPos(result, end);
 
     // find types
     var types = gObject.getProp('x').types;
@@ -34,12 +34,12 @@ addEventListener('message', function (e) {
         }
     });
 
-    var varAtPos = YAtern.findIdentifierAt(result.AST, end);
+    var varAtPos = calcium.findIdentifierAt(result.AST, end);
     if (varAtPos) {
         message.varNameAtPos = varAtPos.node.name;
         console.log(varAtPos.state);
 
-        var refs = YAtern.findVarRefsAt(result.AST, end);
+        var refs = calcium.findVarRefsAt(result.AST, end);
         message.varOccurrences = refs;
 
 
@@ -47,19 +47,19 @@ addEventListener('message', function (e) {
         message.varNameAtPos = null;
     }
 
-    var onFunctionOrReturnKeyword = YAtern.onEscapingStatement(result.AST, end);
+    var onFunctionOrReturnKeyword = calcium.onEscapingStatement(result.AST, end);
 
     if (onFunctionOrReturnKeyword) {
-        message.escapingList = YAtern.findEscapingStatements(result.AST, end, true);
+        message.escapingList = calcium.findEscapingStatements(result.AST, end, true);
     }
 
-    var onThisKeyword = YAtern.onThisKeyword(result.AST, end);
+    var onThisKeyword = calcium.onThisKeyword(result.AST, end);
 
     if (onThisKeyword) {
-        message.thisList = YAtern.findThisExpressions(result.AST, end, true);
+        message.thisList = calcium.findThisExpressions(result.AST, end, true);
     }
 
-    var typeData = YAtern.getTypeData(result.AST, result.Ĉ, start, end);
+    var typeData = calcium.getTypeData(result.AST, result.Ĉ, start, end);
 
     message.typeNames = typeNames;
     message.propNames = propNames;
