@@ -1,2 +1,3 @@
-# yatern
-Yet Another Tern
+# calcium
+A Content Assist Engine for JavaScript
+
