@@ -12,9 +12,9 @@ if (!fs.existsSync('dist')) {
 }
 
 // build for web
-browserify({standalone: 'YAtern', debug: true})
+browserify({standalone: 'calcium', debug: true})
     .transform(babelify)
     .require('./lib/infer.js', {entry: true})
     .bundle()
     .on('error', function (err) { console.log('Error: ' + err.message) })
-    .pipe(fs.createWriteStream('dist/yatern.js'));
+    .pipe(fs.createWriteStream('dist/calcium.js'));
