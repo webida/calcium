@@ -243,5 +243,7 @@ describe('YAtern', function () {
 
         var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 5, 5).typeString;
         expect(typeOfArr).to.be.equal('[?]');
+        var typeOfFn = getTypeAtRange(result.AST, result.Ĉ, 88, 88).typeString;
+        expect(typeOfFn).to.be.equal('fn(x:number|boolean) -> number|boolean');
     });
 });
