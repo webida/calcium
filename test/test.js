@@ -234,4 +234,16 @@ describe('YAtern', function () {
         hasTypes(gObject.getProp('a', true), [types.PrimNumber, types.PrimBoolean]);
         hasTypes(gObject.getProp('b', true), [types.PrimNumber, types.PrimBoolean]);
     });
+
+    it('should analyze 22.js successfully', function () {
+        var data = fs.readFileSync('./testcases/22.js').toString();
+        var result = infer.analyze(data, true);
+
+        var getTypeAtRange = require('../lib/getTypeData').getTypeAtRange;
+
+        var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 5, 5).typeString;
+        expect(typeOfArr).to.be.equal('[?]');
+        var typeOfFn = getTypeAtRange(result.AST, result.Ĉ, 88, 88).typeString;
+        expect(typeOfFn).to.be.equal('fn(x:number|boolean) -> number|boolean');
+    });
 });
