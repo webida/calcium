@@ -5,12 +5,17 @@ var assert = chai.assert,
 var fs = require('fs');
 var infer = require('../lib/infer');
 import * as types from '../lib/domains/types'
+import * as myWalker from '../lib/util/myWalker'
 
-function hasTypes(aval, types) {
-    expect(aval.types.size).to.be.equal(types.length);
-    aval.types.forEach(function (type) {
-        expect(types).to.include(type);
-    });
+function hasTypes(obj, name, types) {
+    it('types of ' + name + ' should be ' + types.map((tp) => tp._toString([])),
+        () => {
+            const aval = obj.getProp(name, true);
+            expect(aval.types.size).to.equal(types.length);
+            aval.types.forEach(function (type) {
+                expect(types).to.include(type);
+            });
+        });
 }
 
 function getIfSingleton(set) {
@@ -24,226 +29,251 @@ function getIfSingleton(set) {
 
 describe('calcium', function () {
 
-    it('should analyze 01.js successfully', function () {
+    describe('Analyze 01.js', () => {
         var data = fs.readFileSync('./testcases/01.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        //it('type of x', () => {
+        //    hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
+        //});
+        hasTypes(gObject, 'x', [types.PrimNumber]);
     });
 
-    it('should analyze 02.js successfully', function () {
+    describe('Analyze 02.js', () => {
         var data = fs.readFileSync('./testcases/02.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'y', [types.PrimBoolean]);
     });
 
-    it('should analyze 03.js successfully', function () {
+    describe('Analyze 03.js', () => {
         var data = fs.readFileSync('./testcases/03.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('i', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('j', true), [types.PrimNumber]);
+        hasTypes(gObject, 'i', [types.PrimNumber]);
+        hasTypes(gObject, 'j', [types.PrimNumber]);
     });
 
-    it('should analyze 04.js successfully', function () {
+    describe('Analyze 04.js', () => {
         var data = fs.readFileSync('./testcases/04.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('i', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('j', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('pairs', true), [types.PrimString]);
+        hasTypes(gObject, 'i', [types.PrimNumber]);
+        hasTypes(gObject, 'j', [types.PrimNumber]);
+        hasTypes(gObject, 'pairs', [types.PrimString]);
     });
 
-    it('should analyze 05.js successfully', function () {
-        var data = fs.readFileSync('./testcases/05.js').toString();
-        var gObject = infer.analyze(data);
-
-        hasTypes(gObject.getProp('isEven', true), [types.PrimBoolean]);
-    });
-
-    it('should analyze 06.js successfully', function () {
+     describe('Analyze 06.js', () => {
         var data = fs.readFileSync('./testcases/06.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('x1', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('x2', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('x3', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('x4', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('x5', true), [types.PrimString]);
-        hasTypes(gObject.getProp('x6', true), []);
-        hasTypes(gObject.getProp('y1', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y2', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y3', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y4', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y5', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y6', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('y7', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'x1', [types.PrimNumber]);
+        hasTypes(gObject, 'x2', [types.PrimNumber]);
+        hasTypes(gObject, 'x3', [types.PrimNumber]);
+        hasTypes(gObject, 'x4', [types.PrimBoolean]);
+        hasTypes(gObject, 'x5', [types.PrimString]);
+        hasTypes(gObject, 'x6', []);
+        hasTypes(gObject, 'y1', [types.PrimNumber]);
+        hasTypes(gObject, 'y2', [types.PrimNumber]);
+        hasTypes(gObject, 'y3', [types.PrimNumber]);
+        hasTypes(gObject, 'y4', [types.PrimNumber]);
+        hasTypes(gObject, 'y5', [types.PrimNumber]);
+        hasTypes(gObject, 'y6', [types.PrimBoolean]);
+        hasTypes(gObject, 'y7', [types.PrimBoolean]);
     });
 
-    it('should analyze 07.js successfully', function () {
+    describe('Analyze 07.js', function () {
         var data = fs.readFileSync('./testcases/07.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x1', true),
-                 [types.PrimNumber, types.PrimBoolean]);
-        hasTypes(gObject.getProp('x2', true),
-                 [types.PrimNumber, types.PrimString]);
-        hasTypes(gObject.getProp('x3', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'x1', [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'x2', [types.PrimNumber, types.PrimString]);
+        hasTypes(gObject, 'x3', [types.PrimBoolean]);
     });
 
-    it('should analyze 08.js successfully', function () {
+    describe('Analyze 08.js', function () {
         var data = fs.readFileSync('./testcases/08.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('one', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('ab', true), [types.PrimString]);
+        hasTypes(gObject, 'one', [types.PrimNumber]);
+        hasTypes(gObject, 'ab', [types.PrimString]);
     });
 
-    it('should analyze 09.js successfully', function () {
+    describe('Analyze 09.js', function () {
         var data = fs.readFileSync('./testcases/09.js').toString();
         var gObject = infer.analyze(data);
 
-        var type = getIfSingleton(gObject.getProp('foo', true).types);
-        hasTypes(type.getProp('data', true), [types.PrimString]);
-        hasTypes(gObject.getProp('y', true), [types.PrimString]);
+        describe('Object foo', () => {
+            var type = getIfSingleton(gObject.getProp('foo', true).types);
+            hasTypes(type, 'data', [types.PrimString]);
+        });
+        hasTypes(gObject, 'y', [types.PrimString]);
     });
 
-    it('should analyze 10.js successfully', function () {
+    describe('Analyze 10.js', function () {
         var data = fs.readFileSync('./testcases/10.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('v', true), [types.PrimNumber]);
+        hasTypes(gObject, 'v', [types.PrimNumber]);
 
-        var obj_type = getIfSingleton(gObject.getProp('obj', true).types);
-        var aval_obj_x = obj_type.getProp('x', true),
-            aval_obj_z = obj_type.getProp('z', true),
-            aval_obj_1 = obj_type.getProp('1', true);
-        hasTypes(aval_obj_x, [types.PrimNumber]);
-        hasTypes(aval_obj_z, [types.PrimString]);
-        hasTypes(aval_obj_1, [types.PrimNumber]);
+        describe('Object obj', () => {
+            var obj_type = getIfSingleton(gObject.getProp('obj', true).types);
+            hasTypes(obj_type, 'x', [types.PrimNumber]);
+            hasTypes(obj_type, 'z', [types.PrimString]);
+            hasTypes(obj_type, '1', [types.PrimNumber]);
+        });
 
-        var arr_type = getIfSingleton(gObject.getProp('arr', true).types);
-        hasTypes(arr_type.getProp('3', true), [types.PrimString]);
+        describe('Array arr', () => {
+            var arr_type = getIfSingleton(gObject.getProp('arr', true).types);
+            hasTypes(arr_type, '3', [types.PrimString]);
+        });
 
-        hasTypes(gObject.getProp('n', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('b', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('s', true), [types.PrimString]);
-        hasTypes(gObject.getProp('l', true), [types.PrimNumber]);
+        hasTypes(gObject, 'n', [types.PrimNumber]);
+        hasTypes(gObject, 'b', [types.PrimBoolean]);
+        hasTypes(gObject, 's', [types.PrimString]);
+        hasTypes(gObject, 'l', [types.PrimNumber]);
     });
 
-    it('should analyze 11.js successfully', function () {
+    describe('Analyze 11.js', function () {
         var data = fs.readFileSync('./testcases/11.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('a', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('b', true), [types.PrimString]);
+        hasTypes(gObject, 'a', [types.PrimNumber]);
+        hasTypes(gObject, 'b', [types.PrimString]);
     });
 
-    it('should analyze 12.js successfully', function () {
+    describe('Analyze 12.js', function () {
         var data = fs.readFileSync('./testcases/12.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x1', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('x2', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('x3', true), [types.PrimString]);
-        hasTypes(gObject.getProp('x4', true), [types.PrimString]);
-        hasTypes(gObject.getProp('x5', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('x6', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'x1', [types.PrimBoolean]);
+        hasTypes(gObject, 'x2', [types.PrimBoolean]);
+        hasTypes(gObject, 'x3', [types.PrimString]);
+        hasTypes(gObject, 'x4', [types.PrimString]);
+        hasTypes(gObject, 'x5', [types.PrimBoolean]);
+        hasTypes(gObject, 'x6', [types.PrimBoolean]);
     });
 
-    it('should analyze 13.js successfully', function () {
+    describe('Analyze 13.js', function () {
         var data = fs.readFileSync('./testcases/13.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('y', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('z', true), [types.PrimNumber]);
+        hasTypes(gObject, 'x', [types.PrimBoolean]);
+        hasTypes(gObject, 'y', [types.PrimNumber]);
+        hasTypes(gObject, 'z', [types.PrimNumber]);
     });
 
-    it('should analyze 14.js successfully', function () {
+    describe('Analyze 14.js', function () {
         var data = fs.readFileSync('./testcases/14.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimString]);
+        hasTypes(gObject, 'x', [types.PrimString]);
     });
 
-    it('should analyze 15.js successfully', function () {
+    describe('Analyze 15.js', function () {
         var data = fs.readFileSync('./testcases/15.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('t1', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('t2', true), [types.PrimString]);
-        hasTypes(gObject.getProp('t3', true), [types.PrimBoolean]);
+        hasTypes(gObject, 't1', [types.PrimNumber]);
+        hasTypes(gObject, 't2', [types.PrimString]);
+        hasTypes(gObject, 't3', [types.PrimBoolean]);
     });
 
-    it('should analyze 16.js successfully', function () {
+    describe('Analyze 16.js', function () {
         var data = fs.readFileSync('./testcases/16.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('a0', true), [types.PrimNumber, types.PrimBoolean]);
-        hasTypes(gObject.getProp('a1', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('a3', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'a0', [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'a1', [types.PrimNumber]);
+        hasTypes(gObject, 'a3', [types.PrimBoolean]);
     });
 
-    it('should analyze 17.js successfully', function () {
+    describe('Analyze 17.js', function () {
         var data = fs.readFileSync('./testcases/17.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), []);
-        hasTypes(gObject.getProp('y', true), [types.PrimString]);
+        hasTypes(gObject, 'x', []);
+        hasTypes(gObject, 'y', [types.PrimString]);
     });
 
-    it('should analyze 18.js successfully', function () {
+    describe('Analyze 18.js', function () {
         var data = fs.readFileSync('./testcases/18.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), []);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'y', []);
     });
 
-    it('should analyze 19.js successfully', function () {
+    describe('Analyze 19.js', function () {
         var data = fs.readFileSync('./testcases/19.js').toString();
         var gObject = infer.analyze(data);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('z', true), [types.PrimString]);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'y', [types.PrimBoolean]);
+        hasTypes(gObject, 'z', [types.PrimString]);
     });
 
-    it('should analyze 20.js successfully', function () {
+    describe('Analyze 20.js', function () {
         var data = fs.readFileSync('./testcases/20.js').toString();
         var options = require('../testcases/options/oneSensitiveOption').options;
         var gObject = infer.analyze(data, false, options);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('a', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('b', true), [types.PrimBoolean]);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'y', [types.PrimBoolean]);
+        hasTypes(gObject, 'a', [types.PrimNumber]);
+        hasTypes(gObject, 'b', [types.PrimBoolean]);
     });
 
-    it('should analyze 21.js successfully', function () {
+    describe('Analyze 21.js', function () {
         var data = fs.readFileSync('./testcases/21.js').toString();
         var options = require('../testcases/options/nameBasedSensitiveOption').options;
         var gObject = infer.analyze(data, false, options);
 
-        hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        hasTypes(gObject.getProp('y', true), [types.PrimBoolean]);
-        hasTypes(gObject.getProp('a', true), [types.PrimNumber, types.PrimBoolean]);
-        hasTypes(gObject.getProp('b', true), [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'x', [types.PrimNumber]);
+        hasTypes(gObject, 'y', [types.PrimBoolean]);
+        hasTypes(gObject, 'a', [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'b', [types.PrimNumber, types.PrimBoolean]);
     });
 
-    it('should analyze 22.js successfully', function () {
+    describe('Analyze 22.js', function () {
         var data = fs.readFileSync('./testcases/22.js').toString();
         var result = infer.analyze(data, true);
 
         var getTypeAtRange = require('../lib/getTypeData').getTypeAtRange;
 
-        var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 5, 5).typeString;
-        expect(typeOfArr).to.be.equal('[?]');
-        var typeOfFn = getTypeAtRange(result.AST, result.Ĉ, 88, 88).typeString;
-        expect(typeOfFn).to.be.equal('fn(x:number|boolean) -> number|boolean');
+        it('type of arr should be [?]', () => {
+            var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 5, 5).typeString;
+            expect(typeOfArr).to.equal('[?]');
+        });
+        it('type of id should be fn(x:number|boolean) -> number|boolean', () => {
+            var typeOfFn = getTypeAtRange(result.AST, result.Ĉ, 88, 88).typeString;
+            expect(typeOfFn).to.equal('fn(x:number|boolean) -> number|boolean');
+        });
+    });
+
+    describe('Analyzing 23.js: checking defaults in patterns', function () {
+        const data = fs.readFileSync('./testcases/23.js').toString();
+        const ast = infer.analyze(data, true).AST;
+        const params = ast.body[0].params;
+        it('x', () => {
+            expect(myWalker.patternHasDefaults(params[0])).to.equal(false);
+        });
+        it('y = 1', () => {
+            expect(myWalker.patternHasDefaults(params[1])).to.equal(true);
+        });
+        it('{a, b}', () => {
+            expect(myWalker.patternHasDefaults(params[2])).to.equal(false);
+        });
+        it('[c, {d, [e, f = 1]}]', () => {
+            expect(myWalker.patternHasDefaults(params[3])).to.equal(true);
+        });
+        it('[u, {v: v, w: w = 1}]', () => {
+            expect(myWalker.patternHasDefaults(params[4])).to.equal(true);
+        });
+        it('...rest = []', () => {
+            expect(myWalker.patternHasDefaults(params[5])).to.equal(true);
+        });
     });
 });
