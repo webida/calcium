@@ -33,9 +33,6 @@ describe('calcium', function () {
         var data = fs.readFileSync('./testcases/01.js').toString();
         var gObject = infer.analyze(data);
 
-        //it('type of x', () => {
-        //    hasTypes(gObject.getProp('x', true), [types.PrimNumber]);
-        //});
         hasTypes(gObject, 'x', [types.PrimNumber]);
     });
 
