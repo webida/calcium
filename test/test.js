@@ -1,6 +1,5 @@
 var chai = require('chai');
-var assert = chai.assert,
-    expect = chai.expect,
+var expect = chai.expect,
     should = chai.should();
 var fs = require('fs');
 var infer = require('../lib/infer');
@@ -302,6 +301,9 @@ describe('calcium', function () {
         });
         it('At f4\'s parameter b', () => {
             cmpOccur(143, [{start: 143, end: 144}, {start: 158, end: 159}]);
+        });
+        it('At f5\'s arguments', () => {
+            cmpOccur(182, [{start: 182, end: 191}, {start: 199, end: 208}]);
         });
     });
 });
