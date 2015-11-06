@@ -6,6 +6,7 @@ var fs = require('fs');
 var infer = require('../lib/infer');
 import * as types from '../lib/domains/types'
 import * as myWalker from '../lib/util/myWalker'
+import * as varRef from '../lib/varrefs'
 
 function hasTypes(obj, name, types) {
     it('types of ' + name + ' should be ' + types.map((tp) => tp._toString([])),
@@ -271,6 +272,36 @@ describe('calcium', function () {
         });
         it('...rest = []', () => {
             expect(myWalker.patternHasDefaults(params[5])).to.equal(true);
+        });
+    });
+    describe('Analyzing 24.js: Checking variable occurrences', () => {
+        const data = fs.readFileSync('./testcases/24.js').toString();
+        const ast = infer.analyze(data, true).AST;
+
+        function cmpOccur(pos, target) {
+            // slice is needed to remove irrelevant property
+            const refs = varRef.findVarRefsAt(ast, pos).slice();
+            expect(refs).to.deep.equal(target);
+
+        }
+
+        it('At f1\'s parameter a', () => {
+           cmpOccur(23, [{start: 23, end: 24}, {start: 39, end: 40}]);
+        });
+        it('At f2\'s first parameter a', () => {
+            cmpOccur(60, [{start: 60, end: 61}, {start: 67, end: 68}]);
+        });
+        it('At f2\'s first parameter a', () => {
+            cmpOccur(63, [{start: 63, end: 64}, {start: 87, end: 88}]);
+        });
+        it('At b in f3\'s default value', () => {
+            cmpOccur(115, [{start: 7, end: 8}, {start: 115, end: 116}]);
+        });
+        it('At f4\'s parameter a', () => {
+            cmpOccur(136, [{start: 136, end: 137}, {start: 151, end: 152}]);
+        });
+        it('At f4\'s parameter b', () => {
+            cmpOccur(143, [{start: 143, end: 144}, {start: 158, end: 159}]);
         });
     });
 });
