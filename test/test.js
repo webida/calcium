@@ -305,5 +305,8 @@ describe('calcium', function () {
         it('At f5\'s arguments', () => {
             cmpOccur(182, [{start: 182, end: 191}, {start: 199, end: 208}]);
         });
+        it('At f7\'s default, arguments', () => {
+            cmpOccur(258, [{start: 258, end: 267}, {start: 279, end: 288}]);
+        });
     });
 });
