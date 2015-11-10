@@ -309,4 +309,15 @@ describe('calcium', function () {
             cmpOccur(258, [{start: 258, end: 267}, {start: 279, end: 288}]);
         });
     });
+
+    describe('Analyzing 25.js: Checking destructuring', () => {
+        var data = fs.readFileSync('./testcases/25.js').toString();
+        var options = require('../testcases/options/nameBasedSensitiveOption').options;
+        var gObject = infer.analyze(data, false, options);
+
+        hasTypes(gObject, 'e0', [types.PrimNumber]);
+        hasTypes(gObject, 'e1', [types.PrimString]);
+        hasTypes(gObject, 'f1', [types.PrimNumber]);
+        hasTypes(gObject, 'v2', [types.PrimString]);
+    });
 });
