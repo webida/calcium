@@ -321,5 +321,14 @@ describe('calcium', function () {
         hasTypes(gObject, 'v2', [types.PrimString]);
         hasTypes(gObject, 'x1', [types.PrimNumber]);
         hasTypes(gObject, 'x2', [types.PrimNumber, types.PrimString]);
+        hasTypes(gObject, 'x3', [types.PrimNumber]);
+        hasTypes(gObject, 'x4', [types.PrimString]);
+        hasTypes(gObject, 'x5', [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'x6', [types.PrimString]);
+        hasTypes(gObject, 'x7', [types.PrimBoolean]);
+        hasTypes(gObject, 'x8', [types.PrimString]);
+        hasTypes(gObject, 'x9', [types.PrimNumber]);
+        hasTypes(gObject, 'x10', [types.PrimString]);
+        hasTypes(gObject, 'x11', [types.PrimBoolean]);
     });
 });
