@@ -309,4 +309,47 @@ describe('calcium', function () {
             cmpOccur(258, [{start: 258, end: 267}, {start: 279, end: 288}]);
         });
     });
+
+    describe('Analyzing 25.js: Checking destructuring', () => {
+        var data = fs.readFileSync('./testcases/25.js').toString();
+        var options = require('../testcases/options/nameBasedSensitiveOption').options;
+        var result = infer.analyze(data, true, options);
+
+        var gObject = result.gObject;
+        hasTypes(gObject, 'e0', [types.PrimNumber]);
+        hasTypes(gObject, 'e1', [types.PrimString]);
+        hasTypes(gObject, 'f1', [types.PrimNumber]);
+        hasTypes(gObject, 'v2', [types.PrimString]);
+        hasTypes(gObject, 'x1', [types.PrimNumber]);
+        hasTypes(gObject, 'x2', [types.PrimNumber, types.PrimString]);
+        hasTypes(gObject, 'x3', [types.PrimNumber]);
+        hasTypes(gObject, 'x4', [types.PrimString]);
+        hasTypes(gObject, 'x5', [types.PrimNumber, types.PrimBoolean]);
+        hasTypes(gObject, 'x6', [types.PrimString]);
+        hasTypes(gObject, 'x7', [types.PrimBoolean]);
+        hasTypes(gObject, 'x8', [types.PrimString]);
+        hasTypes(gObject, 'x9', [types.PrimNumber]);
+        hasTypes(gObject, 'x10', [types.PrimString]);
+        hasTypes(gObject, 'x11', [types.PrimBoolean]);
+
+        var getTypeAtRange = require('../lib/getTypeData').getTypeAtRange;
+
+
+        it('type of fn1 should be "fn({a,b}:{a:number,b:string})"', () => {
+            var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 268, 268).typeString;
+            expect(typeOfArr).to.equal('fn({a,b}:{a:number,b:string})');
+        });
+        it('type of fn2 should be "fn({a,b,c}:{a:boolean|number,b:string,c:number})"', () => {
+            var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 394, 394).typeString;
+            expect(typeOfArr).to.equal('fn({a,b,c}:{a:boolean|number,b:string,c:number})');
+        });
+        it('type of fn3 should be "fn(a:number, ...rest:[string|boolean])"', () => {
+            var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 597, 597).typeString;
+            expect(typeOfArr).to.equal('fn(a:number, ...rest:[string|boolean])');
+        });
+        it('type of fn4 should be "fn([a,b]:[a:number,string], {c,d}:{c:number,d:string})"', () => {
+            var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 646, 646).typeString;
+            expect(typeOfArr).to.equal('fn([a,b]:[a:number,string], {c,d}:{c:number,d:string})');
+        });
+    });
 });
