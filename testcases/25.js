@@ -37,3 +37,6 @@ function fn3(a, ...rest) {
     x11 = rest[1];
 }
 fn3(1, '', true);
+
+function fn4([a,b], {c,d}) {}
+fn4([1,''], {c: 1, d: '', e: true});
