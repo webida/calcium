@@ -349,7 +349,7 @@ describe('calcium', function () {
         });
         it('type of fn4 should be "fn([a,b]:[a:number,string], {c,d}:{c:number,d:string})"', () => {
             var typeOfArr = getTypeAtRange(result.AST, result.Ĉ, 646, 646).typeString;
-            expect(typeOfArr).to.equal('fn([a,b]:[a:number,string], {c,d}:{c:number,d:string})');
+            expect(typeOfArr).to.equal('fn([a,b]:[a:number,b:string], {c,d}:{c:number,d:string})');
         });
     });
 });
